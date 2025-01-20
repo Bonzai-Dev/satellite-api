@@ -1,3 +1,6 @@
+import Satellite from "../modules/satellite";
+import { gstime } from "satellite.js";
+
 export async function fetchApi<T>(path: string): Promise<T> {
   const response = await fetch(path);
 
@@ -6,23 +9,61 @@ export async function fetchApi<T>(path: string): Promise<T> {
   return (await response.text()) as T;
 }
 
-export async function fetchSatellites(response: string) {
-  try {
-    const data = await fetchApi(response);
-    
+export function fetchRandomSatellites(data: string): Satellite {
+  const satellites = splitTleToList(data);
+  const randomSatelliteTle = satellites.get(
+    Math.floor(Math.random() * satellites.size) + 1
+  );
 
-    return data;
-  } catch (error) {
-    return `Error fetching data`;
+  const satellite = new Satellite(
+    randomSatelliteTle as string,
+    gstime(new Date())
+  );
+  return satellite;
+}
+
+export function splitTleToList(data: string): Map<number, string> {
+  let dataArray = parseTleToArray(data);
+  const tleList = new Map<number, string>();
+  let currentKey = 1;
+
+  // Splitting the TLE data into individual TLE, each in an array
+  // If it finds a name then split
+  for (let i = 0; i < dataArray.length; i++) {
+    let valueAfter = "";
+    if (i + 1 < dataArray.length) valueAfter = dataArray[i + 1];
+
+    const reachedClassification =
+      valueAfter.includes("U") ||
+      valueAfter.includes("C") ||
+      valueAfter.includes("S");
+
+    if (dataArray[i].trim() === "1" && reachedClassification) {
+      let currentTle = "";
+      const name = dataArray.slice(0, i).join("");
+      currentTle = name;
+      dataArray = dataArray.slice(i, dataArray.length);
+
+      // Grab the rest of the TLE data for the first TLE
+      currentTle += dataArray.slice(0, 18).join(""); /* For returning with the name of satellite along with all the TLE data */
+      // currentTle = dataArray.slice(0, 18).join(""); /* For returning only the TLE data */
+      dataArray = dataArray.slice(18, dataArray.length);
+      tleList.set(currentKey++, currentTle);
+
+      i = 0;
+    }
   }
+
+  return tleList;
 }
 
 export function parseTleToArray(data: string): string[] {
   // Merging the white space to the index item below itself
   data = data.replace(/\n/g, " ");
+  data = data.replace(/\r/g, " ");
   const dataArray = data.match(/(\S+|\s+)/g) || [];
 
-  for (let i = 0; i < dataArray.length; i++) {
+  for (let i = 1; i < dataArray.length; i++) {
     if (/\s+/.test(dataArray[i])) {
       dataArray[i - 1] = dataArray[i - 1].concat(dataArray[i]);
       dataArray.splice(i, 1);
@@ -37,36 +78,33 @@ export function parseTleArrayToString(data: string[]): string {
   return data.toString().replace(/,/g, "").split(" ").join(" ");
 }
 
-export function parseToJson(data: string) {
+export function parseTleToJson(data: string) {
   let tle = parseTleToArray(data);
 
   let satelliteName = "";
   let lineOne = [];
   let lineTwo = [];
 
-  // Gets the name of the satellite by grabbing everything before
-  // the number 1 that is before all the other data
   for (let i = 0; i < tle.length; i++) {
     let valueAfter = "";
     if (i + 1 < tle.length) valueAfter = tle[i + 1];
 
     // Check if it has reached the classifications
-    const reachedFirstLine =
+    const reachedClassification =
       valueAfter.includes("U") ||
       valueAfter.includes("C") ||
       valueAfter.includes("S");
-    if (tle[i].includes("1") && reachedFirstLine) {
+
+    if (tle[i].trim() === "1" && reachedClassification) {
       // Gets all the strings before
-      satelliteName = tle.slice(0, i).join(" ");
+      satelliteName = tle.slice(0, i).join("");
       tle = tle.slice(i, tle.length);
     }
   }
 
   // Gets the first line of the TLE data by grabbing the first 9 strings left in the TLE data
   for (let i = 0; i < tle.length; i++) {
-    if (i < 9) {
-      lineOne.push(tle[i]);
-    }
+    if (i < 9) lineOne.push(tle[i]);
   }
   tle = tle.slice(9, tle.length);
 
