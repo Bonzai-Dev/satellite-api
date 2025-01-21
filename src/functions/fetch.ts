@@ -1,3 +1,4 @@
+import NodeCache from "node-cache";
 import Satellite from "../modules/satellite";
 import { gstime } from "satellite.js";
 
@@ -10,10 +11,9 @@ export async function fetchApi<T>(path: string): Promise<T> {
 }
 
 export function fetchRandomSatellites(data: string): Satellite {
+  // TODO: do not split data if it is already split
   const satellites = splitTleToList(data);
-  const randomSatelliteTle = satellites.get(
-    Math.floor(Math.random() * satellites.size) + 1
-  );
+  const randomSatelliteTle = satellites[Math.floor(Math.random() * satellites.length)];
 
   const satellite = new Satellite(
     randomSatelliteTle as string,
@@ -22,9 +22,9 @@ export function fetchRandomSatellites(data: string): Satellite {
   return satellite;
 }
 
-export function splitTleToList(data: string): Map<number, string> {
+export function splitTleToList(data: string): string[] {
   let dataArray = parseTleToArray(data);
-  const tleList = new Map<number, string>();
+  const tleList: string[] = [];
   let currentKey = 1;
 
   // Splitting the TLE data into individual TLE, each in an array
@@ -48,7 +48,7 @@ export function splitTleToList(data: string): Map<number, string> {
       currentTle += dataArray.slice(0, 18).join(""); /* For returning with the name of satellite along with all the TLE data */
       // currentTle = dataArray.slice(0, 18).join(""); /* For returning only the TLE data */
       dataArray = dataArray.slice(18, dataArray.length);
-      tleList.set(currentKey++, currentTle);
+      tleList.push(currentTle);
 
       i = 0;
     }

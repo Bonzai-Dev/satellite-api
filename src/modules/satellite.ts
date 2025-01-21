@@ -1,4 +1,4 @@
-import { parseTleToJson, parseTleArrayToString } from "../api/fetch";
+import { parseTleToJson, parseTleArrayToString } from "../functions/fetch";
 import {
   PositionAndVelocity,
   GeodeticLocation,

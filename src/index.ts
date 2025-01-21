@@ -1,35 +1,39 @@
 import express, { Request, Response } from "express";
 import config from "./config/index";
-import { fetchApi, fetchRandomSatellites } from "./api/fetch";
+import { fetchApi, fetchRandomSatellites } from "./functions/fetch";
 import Satellite from "./modules/satellite";
 import { gstime } from "satellite.js";
-import Cache from "./modules/cache";
+import NodeCache from "node-cache";
 
 const app = express();
 app.use(express.json());
 
 const port = config.port;
-const cache = new Cache();
+const cache = new NodeCache();
 
-app.get("/api/satellites", async (req: Request, res: Response) => {
-  const key = "tle";
+app.use(async (req, res, next) => {
   const satellites: string = await fetchApi(
     "https://api.wheretheiss.at/v1/satellites/25544/tles?format=text"
   );
+  const key = req.url;
 
   if (!cache.has(key)) {
-    cache.set(key, satellites);
+    cache.set(key, satellites, 3600);
+    console.log("Fetching new data");
   } else {
     console.log("Using cached data");
   }
+  next();
+});
 
+app.get("/api/satellites", async (req: Request, res: Response) => {
   const gmst = gstime(new Date());
-  const satellite = new Satellite(cache.get(key), gmst);
-
+  const satellite = new Satellite(cache.get(req.url) as string, gmst);
   res.json(satellite.geographicCoordinates);
 });
 
 app.get("/api/satellites/random", async (req: Request, res: Response) => {
+  console.log("Fetching random satellite");
   // TODO: find an API that provides a list of satellites
   const satellites = `
   CALSPHERE 1             
@@ -47,7 +51,7 @@ CALSPHERE 2
 });
 
 app.post("/api/satellites", async (req: Request, res: Response) => {
-  res.send('POST request to homepage');
+  res.send("Received POST request");
 });
 
 app.listen(port, () => {
