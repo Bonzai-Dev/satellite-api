@@ -1,45 +1,32 @@
-import { parseTleToJson, parseTleArrayToString } from "../functions/fetch";
 import {
-  PositionAndVelocity,
-  GeodeticLocation,
-  propagate,
-  twoline2satrec,
-  eciToGeodetic,
-  degreesLat,
-  degreesLong
-} from "satellite.js";
+  DetailedSatellite,
+  Kilometers,
+  PosVel,
+  TleLine2,
+  TleLine1,
+} from "ootk";
 
-import { SatelliteData } from "../types/SatelliteData";
-import { GeographicCoordinates } from "../types/GeographicCoordinates";
+// import { GeographicCoordinates } from "../types/GeographicCoordinates";
 
 export default class Satellite {
   name: string;
-  data: {
-    lineOne: string[];
-    lineTwo: string[];
-  };
-  positionAndVelocity: PositionAndVelocity;
-  geodeticCoordinates: GeodeticLocation;
-  geographicCoordinates: GeographicCoordinates;
+  tleData: {
+    tleOne: TleLine1;
+    tleTwo: TleLine2;
+  };    
+  noradId: string;
+  country: string;
+  description?: string;
 
-  constructor(tle: string, gmst: number) {
-    const data: SatelliteData = parseTleToJson(tle);
-    this.name = data.name.trim();
-    this.data = data.data;
-
-    const lineOne = parseTleArrayToString(this.data.lineOne);
-    const lineTwo = parseTleArrayToString(this.data.lineTwo);
-    const satelliteRecord = twoline2satrec(lineOne, lineTwo);
-    
-    this.positionAndVelocity = propagate(satelliteRecord, new Date());
-
-    const positionEci = this.positionAndVelocity.position;
-    this.geodeticCoordinates = eciToGeodetic(positionEci, gmst);
-    
-    this.geographicCoordinates = {
-      latitude: degreesLat(this.geodeticCoordinates.latitude),
-      longitude: degreesLong(this.geodeticCoordinates.longitude),
-      altitude: this.geodeticCoordinates.height
+  constructor(satelliteData: any) {
+    this.name = satelliteData.name;
+    this.tleData = {
+      tleOne: satelliteData.tle1,
+      tleTwo: satelliteData.tle2,
     };
+
+    this.noradId = satelliteData.satId;
+    this.country = satelliteData.country;
+    this.description = satelliteData.purpose;
   }
 }

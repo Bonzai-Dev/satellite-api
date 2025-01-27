@@ -1,21 +1,22 @@
 {
-  "dependencies": {
-    "express": "^4.21.2",
-    "node-cache": "^5.1.2",
-    "node-modules": "^0.0.1",
-    "satellite.js": "^5.0.0"
+  "name": "satellite-api",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "dev": "nodemon --exec ts-node src/app.ts"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
   "devDependencies": {
     "@types/express": "^5.0.0",
-    "@types/node": "^22.10.7",
-    "nodemon": "^3.1.9",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.7.3"
+    "ts-node": "^10.9.2"
   },
-  "scripts": {
-    "start": "ts-node src/index.ts",
-    "dev": "nodemon src/index.ts",
-    "build": "tsc",
-    "serve": "node dist/index.js"
+  "dependencies": {
+    "@types/node": "^22.10.10",
+    "express": "^4.21.2",
+    "node-cache": "^5.1.2",
+    "ootk": "^4.0.5"
   }
 }
