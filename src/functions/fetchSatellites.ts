@@ -20,12 +20,12 @@ export function parseTleToJson(data: string): Satellite[] {
       const lineTwo = tleLines[i + 2].trim();
       const id = parseInt(lineTwo.split(" ")[1]);
 
-      const satelliteData = {
-        name,
-        satId: id,
+      const satelliteData = new DetailedSatellite({
+        id: id,
+        name: name,
         tle1: lineOne as TleLine1,
         tle2: lineTwo as TleLine2,
-      };
+      });
 
       const satellite = new Satellite(satelliteData);
       satellites.push(satellite);

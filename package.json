@@ -1,9 +1,14 @@
 {
   "name": "satellite-api",
   "version": "1.0.0",
-  "main": "app.js",
+  "main": "index.js",
+  "nodemonConfig": {
+    "ignore": [
+      "./src/assets/cool-satellites.json"
+    ]
+  },
   "scripts": {
-    "dev": "nodemon --exec ts-node src/app.ts"
+    "dev": "nodemon --exec ts-node src/index.ts"
   },
   "keywords": [],
   "author": "",

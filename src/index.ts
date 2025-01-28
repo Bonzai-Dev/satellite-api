@@ -9,7 +9,12 @@ import { readFileSync, writeFile } from "fs";
 
 import Satellite from "./modules/satellite";
 import { fetchApi } from "./functions/fetchApi";
-import { json } from "stream/consumers";
+import {
+  internalServerError,
+  successfullRequest,
+  badRequest,
+} from "./functions/routesStatus";
+import { DetailedSatellite } from "ootk";
 
 const app = express();
 app.use(express.json());
@@ -42,7 +47,7 @@ app.use(async (req, res, next) => {
 });
 
 app.get(routes.satellites, async (req: Request, res: Response) => {
-  res.status(200).json(cache.get(cacheKeys.satellites));
+  successfullRequest(res, cache.get(cacheKeys.satellites));
 });
 
 app.get(routes.search, async (req: Request, res: Response) => {
@@ -54,10 +59,10 @@ app.get(routes.search, async (req: Request, res: Response) => {
       `https://api.keeptrack.space/v1/sat/${id}`
     );
     const satelliteData: any = await JSON.parse(response);
-    res.json(new Satellite(satelliteData));
+    res.json(new Satellite(new DetailedSatellite(satelliteData)));
   } catch (error) {
     console.error("Error fetching or parsing satellite data:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    internalServerError(res);
   }
 });
 
@@ -70,17 +75,14 @@ app.get(routes.randomSatellite, async (req: Request, res: Response) => {
     res.json(randomSatellite);
   } catch (error) {
     console.error("Error fetching or parsing satellite data:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    internalServerError(res);
   }
 });
 
 app.post(routes.post, async (req: Request, res: Response) => {
-	//TODO: improve code and add appending to json
   const { satelliteId } = req.body;
   if (typeof satelliteId !== "string") {
-    res
-      .status(400)
-      .json({ error: "Invalid request: satelliteId must be a number" });
+    badRequest(res, "Invalid request: 'satelliteId' must be a number");
     return;
   }
 
@@ -88,21 +90,36 @@ app.post(routes.post, async (req: Request, res: Response) => {
     const response = await fetchApi<string>(
       `https://api.keeptrack.space/v1/sat/${satelliteId}`
     );
-    const jsonData = JSON.parse(response);
-		const satellite = new Satellite(jsonData);
-    const satelliteData = { [satellite.name]: satellite };
+    const requestJsonData = JSON.parse(response);
+    const satellite = new Satellite(requestJsonData);
+ 
+    const existingData: Satellite[] = JSON.parse(
+      readFileSync("./src/assets/cool-satellites.json", "utf-8")
+    );
+    
+    // Check if satelliteId already exists
+    if (existingData.find(existingSatellite => existingSatellite.noradId === satelliteId)) {
+      badRequest(res, "Satellite with that ID already exists");
+      return;
+    }
 
-    writeFile("./src/assets/cool-satellites.json", JSON.stringify(satelliteData), "utf-8", (err) => {
-      if (err) {
-        console.error("Error writing file:", err);
-        res.status(500).json({ error: "Internal Server Error" });
-        return;
+    existingData.push(satellite);
+    writeFile(
+      "./src/assets/cool-satellites.json",
+      JSON.stringify(existingData, null, 2),
+      "utf-8",
+      (err) => {
+        if (err) {
+          console.error("Error writing file:", err);
+          res.status(500).json({ error: "Internal Server Error" });
+          return;
+        }
+        successfullRequest(res);
       }
-      res.status(200).json({ message: "Post request successfull" });
-    });
+    );
   } catch (error: any) {
     console.error("Error fetching or parsing satellite data:", error);
-    res.status(500).json({ error: error.message });
+    internalServerError(res);
   }
 });
 

@@ -4,7 +4,8 @@ const config = {
     satellites: "/api/get/satellites",
     randomSatellite: "/api/get/satellites/random",
     search: "/api/get/satellites/search/:id",
-    post: "/api/post",
+    
+    post: "/api/post/cool-satellites",
   },
 };
 

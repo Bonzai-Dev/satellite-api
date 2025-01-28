@@ -1,12 +1,9 @@
 import {
-  DetailedSatellite,
-  Kilometers,
-  PosVel,
   TleLine2,
   TleLine1,
+  DetailedSatellite,
 } from "ootk";
-
-// import { GeographicCoordinates } from "../types/GeographicCoordinates";
+import { GeographicCoordinates } from "../types/GeographicCoordinates";
 
 export default class Satellite {
   name: string;
@@ -17,6 +14,7 @@ export default class Satellite {
   noradId: string;
   country: string;
   description?: string;
+  geographicCoordinates?: GeographicCoordinates;
 
   constructor(satelliteData: any) {
     this.name = satelliteData.name;
@@ -28,5 +26,7 @@ export default class Satellite {
     this.noradId = satelliteData.satId;
     this.country = satelliteData.country;
     this.description = satelliteData.purpose;
+
+    this.geographicCoordinates = satelliteData.lla();
   }
 }
