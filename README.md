@@ -1,6 +1,6 @@
 
 # Satellite-API
-Using tools like [OOTK](https://github.com/thkruz/ootk-core), this simple API that is free to use for everyone can track, post, and find information about satellites in space. It also uses data from [KeepTrack](https://keeptrack.space) and [CelesTrak](https://celestrak.org/) to get the TLE data from various satellites in space.
+Using tools like [OOTK](https://github.com/thkruz/ootk-core), this simple API is free to use, so everyone can track, post, and find information about satellites in space. It also uses data from [KeepTrack](https://keeptrack.space) and [CelesTrak](https://celestrak.org/) to get the TLE data for various satellites in space.
 
 ## Environment Variables
 
