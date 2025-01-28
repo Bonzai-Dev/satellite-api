@@ -1,8 +1,4 @@
-import {
-  TleLine2,
-  TleLine1,
-  DetailedSatellite,
-} from "ootk";
+import { TleLine2, TleLine1 } from "ootk";
 import { GeographicCoordinates } from "../types/GeographicCoordinates";
 
 export default class Satellite {
@@ -10,9 +6,9 @@ export default class Satellite {
   tleData: {
     tleOne: TleLine1;
     tleTwo: TleLine2;
-  };    
+  };
   noradId: string;
-  country: string;
+  country?: string;
   description?: string;
   geographicCoordinates?: GeographicCoordinates;
 

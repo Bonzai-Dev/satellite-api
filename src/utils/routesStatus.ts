@@ -8,7 +8,7 @@ export function internalServerError(
 
 export function successfullRequest(
   res: express.Response<any, Record<string, any>>,
-  message: {message: string} = {message: "Request successfull"}
+  message: any = "Success"
 ) {
   res.status(200).json(message);
 }
