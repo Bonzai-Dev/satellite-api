@@ -1,4 +1,4 @@
-export type GeographicCoordinates = {
+export interface GeographicCoordinates {
   latitude: number;
   longitude: number;
   altitude: number;

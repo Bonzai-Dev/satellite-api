@@ -1,10 +1,10 @@
 import express, { Request, Response } from "express";
-import config from "../../config/index";
-import { fetchRandomSatellites } from "../../utils/fetchSatellites";
+import config from "../../config";
+import { SatelliteUtils, RoutesStatus } from "../../utils";
 
 import Satellite from "../../modules/satellite";
-import { internalServerError, successfullRequest } from "../../utils/routesStatus";
 import cache from "../../modules/cache";
+import routesStatus from "../../utils/routesStatus";
 
 const app = express();
 app.use(express.json());
@@ -17,11 +17,11 @@ router.get(routes.get.randomSatellite, async (req: Request, res: Response) => {
 
   try {
     const satellites: Satellite[] = cache.get(config.cacheKeys.satellites) || [];
-    const randomSatellite = fetchRandomSatellites(satellites);
-    successfullRequest(res, randomSatellite)
+    const randomSatellite = SatelliteUtils.fetchRandomSatellites(satellites);
+    routesStatus.successfullRequest(res, randomSatellite)
   } catch (error) {
     console.error("Error fetching or parsing satellite data:", error);
-    internalServerError(res);
+    RoutesStatus.internalServerError(res);
   }
 });
 

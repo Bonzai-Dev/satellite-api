@@ -10,18 +10,19 @@ const config = {
     },
 
     post: {
-      postSatellite: "/api/post/post-satellites",
+      postSatellite: "/api/post/post-satellite",
     }
   },
   cacheKeys: {
     satellites: "satellites",
   },
   urls: {
-    tles: "https://celestrak.org/NORAD/elements/gp.php?GROUP=active&FORMAT=tle",
+    celesTrak: "https://celestrak.org/NORAD/elements/gp.php?GROUP=active&FORMAT=tle",
+    keepTrack: "https://api.keeptrack.space/v1"
   },
   files: {
-    tles: "./src/assets/TLEs.txt",
-    coolSatellites: "./src/assets/cool-satellites.json",
+    postedSatellites: "./src/data/posted-satellites.json",
+    tles: "./src/data/tle.txt",
   },
 };
 

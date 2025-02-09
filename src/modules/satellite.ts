@@ -19,7 +19,7 @@ export default class Satellite {
       tleTwo: satelliteData.tle2,
     };
 
-    this.noradId = satelliteData.satId;
+    this.noradId = satelliteData.id.toString().padStart(5, "0");
     this.country = satelliteData.country;
     this.description = satelliteData.purpose;
 

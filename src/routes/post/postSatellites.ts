@@ -1,48 +1,49 @@
 import express, { Request, Response } from "express";
-import config from "../../config/index";
+import config from "../../config";
 import { readFileSync, writeFile } from "fs";
-
+import { fetchApi } from "../../utils";
+import { RoutesStatus } from "../../utils";
 import Satellite from "../../modules/satellite";
-import { fetchApi } from "../../utils/fetchApi";
-import {
-  internalServerError,
-  successfullRequest,
-  badRequest,
-} from "../../utils/routesStatus";
+import { DetailedSatellite } from "ootk";
 
 const app = express();
 app.use(express.json());
 
 const router = express.Router();
 const routes = config.routes;
-
 router.post(routes.post.postSatellite, async (req: Request, res: Response) => {
   const { satelliteId } = req.body;
   if (typeof satelliteId !== "string") {
-    badRequest(res, "Invalid request: 'satelliteId' must be a number");
+    RoutesStatus.badRequest(res, "Invalid request: 'satelliteId' must be a number");
     return;
   }
 
   try {
     const response = await fetchApi<string>(
-      `https://api.keeptrack.space/v1/sat/${satelliteId}`
+      `${config.urls.keepTrack}/sat/${satelliteId}`
     );
     const requestJsonData = JSON.parse(response);
-    const satellite = new Satellite(requestJsonData);
+    const satelliteData = new DetailedSatellite({
+      id: requestJsonData.satId,
+      name: requestJsonData.name,
+      tle1: requestJsonData.tle1,
+      tle2: requestJsonData.tle2,
+    });
+    const satellite = new Satellite(satelliteData);
 
     const existingData: Satellite[] = JSON.parse(
-      readFileSync(config.files.coolSatellites, "utf-8")
+      readFileSync(config.files.postedSatellites, "utf-8")
     );
 
     // Check if satelliteId already exists
     if (existingData.find((existingSatellite) => existingSatellite.noradId === satelliteId)) {
-      badRequest(res, "Satellite with that ID already exists");
+      RoutesStatus.badRequest(res, "Satellite with that ID already exists");
       return;
     }
 
     existingData.push(satellite);
     writeFile(
-      config.files.coolSatellites,
+      config.files.postedSatellites,
       JSON.stringify(existingData, null, 2),
       "utf-8",
       (err) => {
@@ -51,12 +52,12 @@ router.post(routes.post.postSatellite, async (req: Request, res: Response) => {
           res.status(500).json({ error: "Internal Server Error" });
           return;
         }
-        successfullRequest(res);
+        RoutesStatus.successfullRequest(res);
       }
     );
   } catch (error: any) {
     console.error("Error fetching or parsing satellite data:", error);
-    internalServerError(res);
+    RoutesStatus.internalServerError(res);
   }
 });
 
