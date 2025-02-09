@@ -4,7 +4,7 @@ Using tools like [OOTK](https://github.com/thkruz/ootk-core) and Express.js, thi
 
 ## Environment Variables
 
-To run this project, you will need to add the following environment variables to your .env file
+To run this project, you will need to add the following environment variables to your .env file: <br>
 `PORT`
 
 ## API Reference
@@ -23,6 +23,9 @@ To run this project, you will need to add the following environment variables to
 ```http
   GET /api/items/${id}
 ```
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `string` | **Required**. NORAD ID of the satellite |
 
 #### Get all posted satellites
 ```http
