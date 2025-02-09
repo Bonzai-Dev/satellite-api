@@ -14,8 +14,8 @@ app.use(express.json());
 const port = config.port;
 app.use(async (req: Request, res: Response, next) => {
   // For development only
-  const tles = satellitesUtils.parseTleToJson(readFileSync("src/data/tle.txt", "utf-8"));
-  cache.set(config.cacheKeys.satellites, tles, 3600);
+  // const tles = satellitesUtils.parseTleToJson(readFileSync("src/data/tle.txt", "utf-8"));
+  // cache.set(config.cacheKeys.satellites, tles, 3600);
   //
 
   if (!cache.get(config.cacheKeys.satellites)) {
