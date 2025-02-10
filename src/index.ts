@@ -1,12 +1,9 @@
 import express, { Request, Response } from "express";
 import config from "./config";
 import { cache } from "./modules";
-
 import { fetchApi, SatelliteUtils } from "./utils";
-import { readFileSync } from "fs";
 
 import Routes from "./routes";
-import satellitesUtils from "./utils/satellitesUtils";
 
 const app = express();
 app.use(express.json());
