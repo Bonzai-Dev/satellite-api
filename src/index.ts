@@ -1,7 +1,8 @@
 import express, { Request, Response } from "express";
-import config from "./config/index.js";
+import { readFileSync } from "fs";
 import { cache } from "./modules/index.js";
 import { fetchApi, SatelliteUtils } from "./utils/index.js";
+import config from "./config/index.js";
 
 import Routes from "./routes/index.js";
 
@@ -11,7 +12,7 @@ app.use(express.json());
 const port = config.port;
 app.use(async (req: Request, res: Response, next) => {
   // For development only
-  // const tles = satellitesUtils.parseTleToJson(readFileSync("src/data/tle.txt", "utf-8"));
+  // const tles = SatelliteUtils.parseTleToJson(readFileSync("src/data/tle.txt", "utf-8"));
   // cache.set(config.cacheKeys.satellites, tles, 3600);
   //
 

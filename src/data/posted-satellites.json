@@ -1,25 +1,5 @@
 [
   {
-    "name": "CALSPHERE 1",
-    "tleData": {
-      "tleOne": "1 00900U 64063C   25027.59030682  .00001126  00000+0  11529-2 0  9996",
-      "tleTwo": "2 00900  90.2075  60.2518 0025977  27.5506 139.3665 13.75774378  1883"
-    },
-    "noradId": "00900",
-    "country": "United States",
-    "description": "Air density research"
-  },
-  {
-    "name": "OPS 5798 DEB",
-    "tleData": {
-      "tleOne": "1 00901U 64063D   25027.59975376  .00000193  00000+0  26692-3 0  9996",
-      "tleTwo": "2 00901  90.2232  64.5569 0020391 150.3903 326.5671 13.55020087977982"
-    },
-    "noradId": "00901",
-    "country": "United States",
-    "description": ""
-  },
-  {
     "name": "COSMOS 41 DEB",
     "tleData": {
       "tleOne": "1 25553U 64049H   00366.94465505  .57596518  32311-4  27224-2 0  9995",
@@ -27,26 +7,15 @@
     },
     "noradId": "25553",
     "country": "",
-    "description": "",
+    "launchDate": "",
+    "purpose": "",
+    "owner": "",
+    "launchSite": "",
+    "launchVehicle": "",
     "geographicCoordinates": {
       "lon": null,
       "lat": null,
       "alt": null
-    }
-  },
-  {
-    "name": "SL-4 R/B",
-    "tleData": {
-      "tleOne": "1 00905U 64065  B 64290.17024632  .02172362 +00000-0 +00000-0 0  9994",
-      "tleTwo": "2 00905 064.7643 154.7868 0115220 053.3138 307.7755 16.11475971000623"
-    },
-    "noradId": "00905",
-    "country": "",
-    "description": "",
-    "geographicCoordinates": {
-      "lon": 161.2834460964027,
-      "lat": 59.49514193330231,
-      "alt": 177.21074463579043
     }
   }
 ]

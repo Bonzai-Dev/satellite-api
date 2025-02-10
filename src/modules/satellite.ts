@@ -8,8 +8,14 @@ export default class Satellite {
     tleTwo: TleLine2;
   };
   noradId: string;
+  
   country?: string;
-  description?: string;
+  launchDate?: string;
+  purpose: string;
+  owner?: string;
+  launchSite?: string;
+  launchVehicle?: string;
+
   geographicCoordinates?: GeographicCoordinates;
 
   constructor(satelliteData: any) {
@@ -21,8 +27,12 @@ export default class Satellite {
 
     this.noradId = satelliteData.id.toString().padStart(5, "0");
     this.country = satelliteData.country;
-    this.description = satelliteData.purpose;
-
     this.geographicCoordinates = satelliteData.lla();
+
+    this.launchDate = satelliteData.launchDate;
+    this.purpose = satelliteData.purpose;
+    this.owner = satelliteData.owner;
+    this.launchSite = satelliteData.launchSite;
+    this.launchVehicle = satelliteData.launchVehicle;
   }
 }

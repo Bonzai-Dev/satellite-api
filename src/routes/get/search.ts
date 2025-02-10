@@ -20,6 +20,12 @@ router.get(routes.get.search, async (req: Request, res: Response) => {
     const satellite = new DetailedSatellite({
       id: satelliteData.satId,
       name: satelliteData.name,
+      country: satelliteData.country,
+      launchDate: satelliteData.launchDate,
+      purpose: satelliteData.purpose,
+      owner: satelliteData.owner,
+      launchSite: satelliteData.launchSite,
+      launchVehicle: satelliteData.launchVehicle,
       tle1: satelliteData.tle1,
       tle2: satelliteData.tle2,
     });

@@ -5,7 +5,7 @@ const config = {
     get: {
       satellites: "/api/get/satellites",
       randomSatellite: "/api/get/satellites/random",
-      search: "/api/get/satellites/search/:id",
+      search: "/api/get/satellites/search/:id", 
       postedSatellite: "/api/get/posted-satellites",
     },
 
