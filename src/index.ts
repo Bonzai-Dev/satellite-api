@@ -1,9 +1,9 @@
 import express, { Request, Response } from "express";
-import config from "./config";
-import { cache } from "./modules";
-import { fetchApi, SatelliteUtils } from "./utils";
+import config from "./config/index.js";
+import { cache } from "./modules/index.js";
+import { fetchApi, SatelliteUtils } from "./utils/index.js";
 
-import Routes from "./routes";
+import Routes from "./routes/index.js";
 
 const app = express();
 app.use(express.json());

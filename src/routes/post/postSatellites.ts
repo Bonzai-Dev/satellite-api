@@ -1,9 +1,9 @@
 import express, { Request, Response } from "express";
-import config from "../../config";
+import config from "../../config/index.js";
 import { readFileSync, writeFile } from "fs";
-import { fetchApi } from "../../utils";
-import { RoutesStatus } from "../../utils";
-import Satellite from "../../modules/satellite";
+import { fetchApi } from "../../utils/index.js";
+import { RoutesStatus } from "../../utils/index.js";
+import Satellite from "../../modules/satellite.js";
 import { DetailedSatellite } from "ootk";
 
 const app = express();

@@ -1,4 +1,4 @@
-import cache from "./cache";
-import satellite from "./satellite";
+import cache from "./cache.js";
+import satellite from "./satellite.js";
 
 export { cache, satellite };

@@ -1,8 +1,8 @@
-import searchRoute from "./get/search";
-import randomSatelliteRoute from "./get/randomSatellite";
-import postRoute from "./post/postSatellites";
-import satellitesRoute from "./get/satellites";
-import postedSatellitesRoute from "./get/postedSatellites";
+import searchRoute from "./get/search.js";
+import randomSatelliteRoute from "./get/randomSatellite.js";
+import postRoute from "./post/postSatellites.js";
+import satellitesRoute from "./get/satellites.js";
+import postedSatellitesRoute from "./get/postedSatellites.js";
 
 const get = {
   searchRoute,

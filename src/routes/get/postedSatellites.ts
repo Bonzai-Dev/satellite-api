@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
-import config from "../../config";
+import config from "../../config/index.js";
 import { readFileSync } from "fs";
-import { RoutesStatus } from "../../utils";
+import { RoutesStatus } from "../../utils/index.js";
 
 const router = express.Router();
 const routes = config.routes;

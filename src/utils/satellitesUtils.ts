@@ -1,5 +1,5 @@
 import { DetailedSatellite, TleLine2, TleLine1 } from "ootk";
-import Satellite from "../modules/satellite";
+import Satellite from "../modules/satellite.js";
 
 function fetchRandomSatellites(satellites: Satellite[]): Satellite {
   return satellites[Math.floor(Math.random() * satellites.length)];

@@ -1,8 +1,8 @@
 import express, { Request, Response } from "express";
-import config from "../../config";
+import config from "../../config/index.js";
 
-import Satellite from "../../modules/satellite";
-import { fetchApi, RoutesStatus } from "../../utils";
+import Satellite from "../../modules/satellite.js";
+import { fetchApi, RoutesStatus } from "../../utils/index.js";
 
 import { DetailedSatellite } from "ootk";
 

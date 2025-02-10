@@ -1,5 +1,5 @@
 import { TleLine2, TleLine1 } from "ootk";
-import { GeographicCoordinates } from "../types/GeographicCoordinates";
+import { GeographicCoordinates } from "../types/GeographicCoordinates.js";
 
 export default class Satellite {
   name: string;

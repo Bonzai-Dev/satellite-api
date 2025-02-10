@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
-import config from "../../config";
-import { RoutesStatus } from "../../utils";
-import cache from "../../modules/cache";
+import config from "../../config/index.js";
+import { RoutesStatus } from "../../utils/index.js";
+import cache from "../../modules/cache.js";
 
 const router = express.Router();
 const routes = config.routes;

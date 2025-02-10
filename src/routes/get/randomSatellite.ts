@@ -1,10 +1,10 @@
 import express, { Request, Response } from "express";
-import config from "../../config";
-import { SatelliteUtils, RoutesStatus } from "../../utils";
+import config from "../../config/index.js";
+import { SatelliteUtils, RoutesStatus } from "../../utils/index.js";
 
-import Satellite from "../../modules/satellite";
-import cache from "../../modules/cache";
-import routesStatus from "../../utils/routesStatus";
+import Satellite from "../../modules/satellite.js";
+import cache from "../../modules/cache.js";
+import routesStatus from "../../utils/routesStatus.js";
 
 const app = express();
 app.use(express.json());
