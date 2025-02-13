@@ -1,4 +1,5 @@
 import express, { Request, Response } from "express";
+import cors from "cors";
 import { readFileSync } from "fs";
 import { cache } from "./modules/index.js";
 import { fetchApi, SatelliteUtils } from "./utils/index.js";
@@ -7,6 +8,7 @@ import config from "./config/index.js";
 import Routes from "./routes/index.js";
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 const port = config.port;
