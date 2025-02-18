@@ -5,5 +5,5 @@
     "target": "ES2023",
     "outDir": "dist",
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "api/routes", "api/types", "api/utils", "api/index.ts", "api/modules", "api/config"],
 }
