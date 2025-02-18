@@ -3,14 +3,14 @@ const config = {
   port: process.env.PORT,
   routes: {
     get: {
-      satellites: "/get/satellites",
-      randomSatellite: "/get/satellites/random",
-      search: "/get/satellites/search/:id", 
-      postedSatellite: "/get/posted-satellites",
+      satellites: "/api/get/satellites",
+      randomSatellite: "/api/get/satellites/random",
+      search: "/api/get/satellites/search/:id", 
+      postedSatellite: "/api/get/posted-satellites",
     },
 
     post: {
-      postSatellite: "/post/post-satellite",
+      postSatellite: "/api/post/post-satellite",
     }
   },
   cacheKeys: {
