@@ -38,10 +38,3 @@ To run this project, you will need to add the following environment variables to
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
 | `id`      | `string` | **Required**. NORAD ID of the satellite |
-
-
-#### Development
-Use Vercel CLI to replicate the Vercel deployed environment and then run
-```bash
-vercel dev
-```
